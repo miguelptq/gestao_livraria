@@ -84,7 +84,10 @@ tabela_livro = '''
         isbn_livro TEXT PRIMARY KEY,
         nome_livro TEXT NOT NULL,
         desc_livro TEXT NOT NULL,
-        ano_livro DATE NOT NULL
+        ano_livro DATE NOT NULL,
+        borrowed BOOLEAN DEFAULT FALSE,
+        user_id INT DEFAULT NULL,
+        FOREIGN KEY (user_id) REFERENCES user (id)
     )
 '''
 cursor.execute(tabela_livro)
