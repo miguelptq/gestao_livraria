@@ -16,5 +16,3 @@ def main():
 #roda função main se o arquivo
 if __name__ == '__main__':
     main()
-
-    ssvsvsvsvvv
