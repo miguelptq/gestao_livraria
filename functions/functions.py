@@ -17,6 +17,8 @@ def list_permissions(user, role = None):
         permissions = ('Search Books','Request Books','Return Books')
     elif role  == "SuperAdmin":
         permissions = ('Search Books','Request Books','Return Books', 'Insert Books','Remove Books', 'Update Books', 'Insert New Users', 'List Users')
+    else:
+        permissions = tuple()
     return permissions
 
 def get_role_id(role_name):
