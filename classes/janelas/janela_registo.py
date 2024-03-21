@@ -3,8 +3,9 @@
 from tkinter import *
 from tkinter import Tk
 from tkinter import ttk
+import tkinter.messagebox
 import sqlite3, customtkinter
-import hashlib
+import hashlib, re
 import os
 from classes.user.user import User
 from functions.functions import *
@@ -15,6 +16,17 @@ def clear_grid_except_error(frame, error_label):
     for widget in frame.winfo_children():
         if widget != error_label:
             error_label.destroy()
+
+
+def email_verificado(email):
+    email_regex =  r'^([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
+
+    if re.match(email_regex, email):
+        return True
+    else:
+        return False
+
+
 
 
 class JanelaRegisto:
@@ -47,6 +59,10 @@ class JanelaRegisto:
         self.user_email_lbl.grid(row = 2, column = 0, sticky = 'E', pady = 20)
         self.user_email_entry =  customtkinter.CTkEntry(self.janela_registo, font =customtkinter.CTkFont(size=14, weight='bold'))
         self.user_email_entry.grid(row = 2, column = 1, pady = 10)
+
+        #Configuração do label de validação de email
+        self._user_email_valido_lbl = customtkinter.CTkLabel(self.janela_registo, text="", font =customtkinter.CTkFont(size=14, weight='normal'))
+        self._user_email_valido_lbl.grid(row=3, column=2, padx=10)
 
         # Configuração do campo de nome do password
         self.user_password_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Password: ', font =customtkinter.CTkFont(size=14, weight='normal'))
@@ -82,12 +98,27 @@ class JanelaRegisto:
         self.sair_btn =  customtkinter.CTkButton(self.janela_registo, text = "Sair", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.janela_registo.destroy)
         self.sair_btn.grid(row = row + 1, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
     
+    def email_verificado(self):
+        email_user = self.user_email_entry.get()
+
+        print("Email recebido", email_user)
+
+        if email_user!= "" and email_verificado(email_user):
+            self._user_email_valido_lbl.config(fg="green")
+            return True
+        else:
+            print("Email invalido")
+            tkinter.messagebox.showerror("Email inválido",  "O email inserido não é válido!")
+            return False
+
     def registar_utilizador(self):
         # Pegar nos dados inseridos
         username = self.user_name_entry.get()
         password_user = self.user_password_entry.get()
         email_user = self.user_email_entry.get()
         
+        if not self.email_verificado():
+            return
 
         user = User()
         user.set_username(username)
