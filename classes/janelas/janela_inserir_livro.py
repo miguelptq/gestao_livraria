@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import Tk
 import sqlite3, customtkinter
 from classes.user.user import User
+from classes.book.book import Book
 
 class JanelaInserirLivro:
     def __init__(self, user):
@@ -69,27 +70,18 @@ class JanelaInserirLivro:
 
 
     def guardar_livro(self, autores):
-        isbn_livro = self.isbn_lbl_entry.get()
-        nome_livro = self.nome_livro_entry.get()
-        desc_livro = self.desc_livro_entry.get()
-        ano_livro = self.ano_livro_entry.get()
-
-        # Ligar a Base de Dados
-        conn = sqlite3.connect('livraria.db')
-
-        cursor = conn.cursor()
-
-        cursor.execute(
-            "INSERT INTO livro (isbn_livro, nome_livro, desc_livro, ano_livro) VALUES (?, ?, ?, ?)", (isbn_livro, nome_livro, desc_livro, ano_livro)
-        )
-
-        for autor in autores:  # Iterate over all authors
-            cursor.execute(
-                "INSERT INTO autor_livro (isbn_livro, nome_autor) VALUES (?, ?)", (isbn_livro, autor)
-            )
-
-        conn.commit()
-        conn.close()
+        isbn = self.isbn_lbl_entry.get()
+        title = self.nome_livro_entry.get()
+        desc = self.desc_livro_entry.get()
+        year = self.ano_livro_entry.get()
+        book = Book()
+        book.set_isbn(isbn)
+        book.set_title(title)
+        book.set_desc(desc)
+        book.set_year(year)
+        creation = book.create(autores)
+        self.book_creation_msg = Label(self.janela_inserir, text = creation[1], fg = creation[2])
+        self.book_creation_msg.grid(row = self.proxima_linha, column = 0, columnspan = 2)
 
     def add_autor(self):
         self.numeroautores += 1
@@ -118,24 +110,9 @@ class JanelaInserirLivro:
         self.confimation.grid(row=self.proxima_linha, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
 
     def botao_inserir(self):
-        # Get values from Entry widgets
-        isbn_livro = self.isbn_lbl_entry.get()
-        nome_livro = self.nome_livro_entry.get()
-        desc_livro = self.desc_livro_entry.get()
-        ano_livro = self.ano_livro_entry.get()
-
         # Get authors from all entry widgets, including the first one
         autores = [self.novo_autor_entry.get()] + [entry.get() for entry in self.author_labels_entries[1::2] if entry.get()]
-
-        # Check if any of the fields are empty
-        if not (isbn_livro and nome_livro and desc_livro and ano_livro and autores):
-            self.confimation = customtkinter.CTkLabel(self.janela_inserir, text="Erro: Os campos devem ser inseridos...", font=customtkinter.CTkFont(size=14, weight='normal'))
-            self.confimation.grid(row=self.proxima_linha, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
-            
-        else:
-            # Show confirmation message
-            self.confimation = customtkinter.CTkLabel(self.janela_inserir, text="Livro guardado com sucesso", fg_color= ("green") ,font=customtkinter.CTkFont(size=14, weight='normal'))
-            self.confimation.grid(row=self.proxima_linha, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
+        
         
         self.guardar_livro(autores)
         self.clear_entries()
