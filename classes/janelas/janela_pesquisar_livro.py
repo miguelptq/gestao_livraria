@@ -22,7 +22,6 @@ class JanelaPesquisarLivro:
             self.registering_role_name = cursor.fetchone()[0]
             conn.close()
             self.permission_list = list_permissions(user, self.registering_role_name)
-
         self.pesquisar_livro = customtkinter.CTkToplevel()
         self.pesquisar_livro.title("Pesquisar Livros")
 
@@ -39,6 +38,7 @@ class JanelaPesquisarLivro:
         self.livro_lbl.grid(row=1, column=0, padx=20, pady=(20, 10))
         self.livro_lbl_entry = customtkinter.CTkEntry(self.pesquisar_livro)
         self.livro_lbl_entry.grid(row=1, column=1, padx=20, pady=10)
+        list_books = self.search(self.livro_lbl_entry.get())
 
          # Checkbox de empréstimo
         self.emprestimo_var = IntVar()
