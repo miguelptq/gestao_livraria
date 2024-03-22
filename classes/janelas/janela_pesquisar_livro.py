@@ -46,7 +46,7 @@ class JanelaPesquisarLivro:
         self.emprestimo_cb.grid(row=1, column=2, padx=20, pady=10)
 
          # Checkbox de devolução
-        self.devolvido_var = IntVar()
+        self.devolvido_var = IntVar()  
         self.devolvido_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Devolvidos", variable=self.devolvido_var)
         self.devolvido_cb.grid(row=1, column=3, padx=20, pady=10)
 
