@@ -38,6 +38,20 @@ class JanelaPesquisarLivro:
         self.livro_lbl.grid(row=1, column=0, padx=20, pady=(20, 10))
         self.livro_lbl_entry = customtkinter.CTkEntry(self.pesquisar_livro)
         self.livro_lbl_entry.grid(row=1, column=1, padx=20, pady=10)
+        # Configuração do CTkTreeview para exibir os resultados
+        self.tree = ttk.Treeview(self.pesquisar_livro, columns=("ISBN", "Título", "Descrição", "Autores"))
+        self.tree.grid(row=2, column=0, columnspan=4, padx=20, pady=10, sticky="nsew")
+
+        # Configurando as colunas do CTkTreeview
+        self.tree.heading("ISBN", text="ISBN")
+        self.tree.heading("Título", text="Título")
+        self.tree.heading("Descrição", text="Descrição")
+        self.tree.heading("Autores", text="Autores")
+
+        # Configurando o redimensionamento das colunas
+        self.tree.column("#1", stretch=True)
+        self.tree.column("#2", stretch=True)
+        self.tree.column("#3", stretch=True)
         list_books = self.search(self.livro_lbl_entry.get())
 
          # Checkbox de empréstimo
@@ -53,26 +67,11 @@ class JanelaPesquisarLivro:
 
         # Configuração do botão de pesquisa de livro
         self.pesquisa_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Pesquisar", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_pesquisa)
-        self.pesquisa_btn.grid(row=2, column=4, columnspan=2, padx=20, pady=10)
+        self.pesquisa_btn.grid(row=2, column=4, padx=20)
 
         # Configuração do botão de sair
         self.sair_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Sair", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.pesquisar_livro.destroy)
-        self.sair_btn.grid(row=2, column=2, columnspan=2, padx=20, pady=10, sticky="nsew")
-
-        # Configuração do CTkTreeview para exibir os resultados
-        self.tree = ttk.Treeview(self.pesquisar_livro, columns=("ISBN", "Título", "Descrição", "Autores"))
-        self.tree.grid(row=2, column=0, columnspan=4, padx=20, pady=10, sticky="nsew")
-
-        # Configurando as colunas do CTkTreeview
-        self.tree.heading("ISBN", text="ISBN")
-        self.tree.heading("Título", text="Título")
-        self.tree.heading("Descrição", text="Descrição")
-        self.tree.heading("Autores", text="Autores")
-
-        # Configurando o redimensionamento das colunas
-        self.tree.column("#1", stretch=True)
-        self.tree.column("#2", stretch=True)
-        self.tree.column("#3", stretch=True)
+        self.sair_btn.grid(row=3, column=4, padx=20, sticky="nsew")        
 
          # Estilizando a árvore
         self.style = ttk.Style()
