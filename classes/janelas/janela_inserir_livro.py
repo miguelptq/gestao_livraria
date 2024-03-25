@@ -113,21 +113,22 @@ class JanelaInserirLivro:
         # Get authors from all entry widgets, including the first one
         autores = [self.novo_autor_entry.get()] + [entry.get() for entry in self.author_labels_entries[1::2] if entry.get()]
         
-        
         self.guardar_livro(autores)
         self.clear_entries()
         
 
     def clear_entries(self):
-        for widget in self.janela_inserir.winfo_children():
-            if isinstance(widget, Entry):
-                widget.delete(0, END)
+        # Clear the text in all Entry widgets
+        self.isbn_lbl_entry.delete(0, END)
+        self.nome_livro_entry.delete(0, END)
+        self.desc_livro_entry.delete(0, END)
+        self.ano_livro_entry.delete(0, END)
+        self.novo_autor_entry.delete(0, END)
 
         # Delete the saved Entry and Label widgets for authors
         for widget in self.author_labels_entries:
             widget.destroy()
 
         # Clear the list of saved Entry and Label widgets for authors
-        
         self.author_labels_entries.clear()
         self.autores = []
