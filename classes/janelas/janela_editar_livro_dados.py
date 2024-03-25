@@ -89,8 +89,6 @@ class EditarDadosLivro:
         for author in authors:
             self.author_listbox.insert(END, author[0])
 
-    def update_book_details(self):
-        self.populate_book_list()
 
     def save_changes(self):
         # Guardar
