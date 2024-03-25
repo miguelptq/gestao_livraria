@@ -3,7 +3,6 @@ from tkinter import ttk
 import sqlite3
 import customtkinter
 import tkinter.messagebox
-from classes.janelas.janela_editar_livro_dados import EditarDadosLivro
 
 class JanelaDevolverLivro:
     def __init__(self, user):
