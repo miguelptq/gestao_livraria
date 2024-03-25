@@ -5,7 +5,6 @@ from classes.janelas.janela_inserir_livro import JanelaInserirLivro
 from classes.janelas.janela_devolver_livro import JanelaDevolverLivro
 from classes.janelas.janela_editar_livro import JanelaEditarLivro
 from classes.janelas.janela_list_users import JanelaListUsers
-from classes.janelas.janela_editar_perms_users import JanelaEditarPermsUsers
 from classes.janelas.janela_pesquisar_livro import JanelaPesquisarLivro
 from classes.janelas.janela_remover_livro import JanelaRemoverLivro
 from classes.janelas.janela_registo import JanelaRegisto
