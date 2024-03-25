@@ -37,9 +37,20 @@ class JanelaListUsers:
         self.user_name_lbl = customtkinter.CTkLabel(self.janela_lista_users, text = ' Nome do Utilizador', font=customtkinter.CTkFont(size=14, weight='normal'))
         self.user_name_lbl.grid(row = 1, column = 0, pady = 10, sticky='W')
         self.user_name_entry = customtkinter.CTkEntry(self.janela_lista_users, font = customtkinter.CTkFont(size=14, weight='normal'))
-        self.user_name_entry.grid(row = 1, column = 0, pady = 10, sticky='W')
+        self.user_name_entry.grid(row = 1, column = 1, pady = 10, sticky='W')
+
+        #Botão de filtrar utilizadores
         self.filter_btn = customtkinter.CTkButton(self.janela_lista_users, text = "Filtrar", font=customtkinter.CTkFont(size=14, weight='normal'), command = self.filter_list)
         self.filter_btn.grid(row = 2, column = 1, pady = 10, sticky='W')
+
+        #Botão de editar as informações do utilizadores
+        self.editar_btn = customtkinter.CTkButton(self.janela_lista_users, text="Editar", font=customtkinter.CTkFont(size=14, weight='normal'), command=self.user_manager)
+        self.editar_btn.grid(row=3, column=1, pady=10, sticky='W')
+
+
+        #Botáo de sair
+        self.sair_btn = customtkinter.CTkButton(self.janela_lista_users, text="Sair", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.janela_lista_users.destroy )
+        self.sair_btn.grid(row = 4, column=1, pady=10, sticky= 'W')
 
 
         conn = sqlite3.connect('livraria.db')
@@ -102,18 +113,18 @@ class JanelaListUsers:
                     WHERE r.role_name IN ({', '.join(['?'] * len(self.roles_names))})"""
         return query, self.roles_names
 
-    def user_manager(self, event, tree):
-        row_id = tree.identify_row(event.y)
-        if row_id:
-            item = tree.item(row_id)
-            values = item['values']
-            username = values[0]
-            role = values[1]
-            permissions = values[2]
+    def user_manager(self, event=None):
+        #item escolihdo na treeview
+        item_escolhido = self.tree.focus()
+        if item_escolhido:
+            values = self.tree.item(item_escolhido, 'values')
+            if values:
+                username = values[0]
+                role = values[1]
+                permissions = values[2]
             user = {
                 "username":username,
                 "role": role,
                 "permissions": permissions.split(', ')
             }
             open_user_manager = JanelaEditarRemoverUser(self.registering_role_name, user)
-            # Now you can use the data in your function

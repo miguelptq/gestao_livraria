@@ -57,7 +57,7 @@ class JanelaPesquisarLivro:
 
         # Configuração do botão de sair
         self.sair_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Sair", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.pesquisar_livro.destroy)
-        self.sair_btn.grid(row=2, column=2, columnspan=2, padx=20, pady=10, sticky="nsew")
+        self.sair_btn.grid(row=3, column=5, columnspan=1, padx=20, pady=10, sticky="nsew")
 
         # Configuração do CTkTreeview para exibir os resultados
         self.tree = ttk.Treeview(self.pesquisar_livro, columns=("ISBN", "Título", "Descrição", "Autores"))
