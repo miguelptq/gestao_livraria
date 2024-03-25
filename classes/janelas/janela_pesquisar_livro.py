@@ -38,6 +38,26 @@ class JanelaPesquisarLivro:
         self.livro_lbl.grid(row=1, column=0, padx=20, pady=(20, 10))
         self.livro_lbl_entry = customtkinter.CTkEntry(self.pesquisar_livro)
         self.livro_lbl_entry.grid(row=1, column=1, padx=20, pady=10)
+
+         # Checkbox de empréstimo
+        self.emprestimo_var = IntVar()
+        self.emprestimo_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Emprestados", variable=self.emprestimo_var)
+        self.emprestimo_cb.grid(row=1, column=2, padx=20, pady=10)
+
+         # Checkbox de devolução
+        self.devolvido_var = IntVar()  
+        self.devolvido_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Devolvidos", variable=self.devolvido_var)
+        self.devolvido_cb.grid(row=1, column=3, padx=20, pady=10)
+
+
+        # Configuração do botão de pesquisa de livro
+        self.pesquisa_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Pesquisar", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_pesquisa)
+        self.pesquisa_btn.grid(row=2, column=4, columnspan=2, padx=20, pady=10)
+
+        # Configuração do botão de sair
+        self.sair_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Sair", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.pesquisar_livro.destroy)
+        self.sair_btn.grid(row=3, column=5, columnspan=1, padx=20, pady=10, sticky="nsew")
+
         # Configuração do CTkTreeview para exibir os resultados
         self.tree = ttk.Treeview(self.pesquisar_livro, columns=("ISBN", "Título", "Descrição", "Autores"))
         self.tree.grid(row=2, column=0, columnspan=4, padx=20, pady=10, sticky="nsew")

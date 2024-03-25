@@ -50,7 +50,7 @@ class JanelaInserirLivro:
         self.novo_autor_lbl.grid(row= 5, column=0, sticky='W', pady=20)
 
         self.novo_autor_entry = customtkinter.CTkEntry(self.janela_inserir, font=customtkinter.CTkFont(size=20, weight='normal'))
-        self.novo_autor_entry.grid(row=5, column=1, pady=10, sticky='EW')
+        self.novo_autor_entry.grid(row=5, column=1, pady=10, sticky='EW')  
 
         # Configuração do botão de Inserir
         self.confimation = customtkinter.CTkLabel(self.janela_inserir, text="", font=customtkinter.CTkFont(size=20, weight='bold'))
