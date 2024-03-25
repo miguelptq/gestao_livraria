@@ -22,7 +22,6 @@ class JanelaPesquisarLivro:
             self.registering_role_name = cursor.fetchone()[0]
             conn.close()
             self.permission_list = list_permissions(user, self.registering_role_name)
-
         self.pesquisar_livro = customtkinter.CTkToplevel()
         self.pesquisar_livro.title("Pesquisar Livros")
 
@@ -73,6 +72,26 @@ class JanelaPesquisarLivro:
         self.tree.column("#1", stretch=True)
         self.tree.column("#2", stretch=True)
         self.tree.column("#3", stretch=True)
+        list_books = self.search(self.livro_lbl_entry.get())
+
+         # Checkbox de empréstimo
+        self.emprestimo_var = IntVar()
+        self.emprestimo_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Emprestados", variable=self.emprestimo_var)
+        self.emprestimo_cb.grid(row=1, column=2, padx=20, pady=10)
+
+         # Checkbox de devolução
+        self.devolvido_var = IntVar()
+        self.devolvido_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Devolvidos", variable=self.devolvido_var)
+        self.devolvido_cb.grid(row=1, column=3, padx=20, pady=10)
+
+
+        # Configuração do botão de pesquisa de livro
+        self.pesquisa_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Pesquisar", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_pesquisa)
+        self.pesquisa_btn.grid(row=2, column=4, padx=20)
+
+        # Configuração do botão de sair
+        self.sair_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Sair", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.pesquisar_livro.destroy)
+        self.sair_btn.grid(row=3, column=4, padx=20, sticky="nsew")        
 
          # Estilizando a árvore
         self.style = ttk.Style()

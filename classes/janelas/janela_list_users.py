@@ -81,7 +81,6 @@ class JanelaListUsers:
         self.janela_lista_users.grid_columnconfigure(0, weight=1)
     
     
-    
     def filter_list(self):
         name_search = self.user_name_entry.get()
         query, roles_names = self.get_list_no_filter()
