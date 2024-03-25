@@ -1,55 +1,80 @@
+from tkinter import *
+from tkinter import ttk
 import sqlite3
 import customtkinter
-
-def requisitar_livro(usuario, titulo):
-    conn = sqlite3.connect('livraria.db')
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO emprestimos (usuario, livro) VALUES (?, ?)", (usuario, titulo))
-    conn.commit()
-    conn.close()
-
-def pesquisar_livros(titulo, admin=False):
-    conn = sqlite3.connect('livraria.db')
-    cursor = conn.cursor()
-    if admin:
-        cursor.execute("SELECT * FROM livro WHERE nome_livro LIKE ?", ('%' + titulo + '%',))
-    else:
-        # Implemente a lógica de pesquisa para usuários regulares
-        pass
-    resultados = cursor.fetchall()
-    conn.close()
-    return resultados
+import tkinter.messagebox
 
 class JanelaRequisitarLivro:
-    def __init__(self, usuario):
-        self.requisitar_livro = customtkinter.CTkToplevel()
-        self.requisitar_livro.title("Requisitar Livro")
+    def __init__(self, user):
+        self.logged_user = user
+        
+        self.janela_borrow_livro = customtkinter.CTkToplevel()
+        self.janela_borrow_livro.title('Requisitar Livro')
+        self.janela_borrow_livro.iconbitmap('')
+        self.janela_borrow_livro.configure(bg="#f0f0f0")
+        
+        self.book_list_lbl = customtkinter.CTkLabel(self.janela_borrow_livro, text='Lista de Livros', font=customtkinter.CTkFont(size=20, weight='bold'))
+        self.book_list_lbl.grid(row=0, column=0, columnspan=2, pady=20, sticky='NSEW')
+        
+        # Filtra os livros
+        self.book_title_lbl = customtkinter.CTkLabel(self.janela_borrow_livro, text='Título do Livro:', font=customtkinter.CTkFont(size=14, weight='bold'))
+        self.book_title_lbl.grid(row=1, column=0, pady=10, sticky='W')
+        
+        self.book_title_entry = customtkinter.CTkEntry(self.janela_borrow_livro, font=customtkinter.CTkFont(size=14, weight='bold'))
+        self.book_title_entry.grid(row=1, column=1, pady=10, sticky='W')
+        
+        self.filter_btn = customtkinter.CTkButton(self.janela_borrow_livro, text="Filtrar", font=customtkinter.CTkFont(size=14, weight='bold'), command=self.filter_list)
+        self.filter_btn.grid(row=1, column=2, pady=10, sticky='W')
+    
+        # Mostra os livros
+        self.tree = ttk.Treeview(self.janela_borrow_livro, columns=('ISBN', 'Título', 'Descrição', 'Ano', 'Autores'), show='headings')
+        self.tree.heading('ISBN', text='ISBN')
+        self.tree.heading('Título', text='Título')
+        self.tree.heading('Descrição', text='Descrição')
+        self.tree.heading('Ano', text='Ano')
+        self.tree.heading('Autores', text='Autores')
+        self.tree.grid(row=2, column=0, columnspan=3, sticky='nsew')
+        
+        self.janela_borrow_livro.grid_rowconfigure(0, weight=1)
+        self.janela_borrow_livro.grid_columnconfigure(0, weight=1)
 
-        # Configuração da janela
-        self.requisitar_livro.geometry(f'{850}x{500}')
+        self.borrow_btn = customtkinter.CTkButton(self.janela_borrow_livro, text="Requisitar", font=customtkinter.CTkFont(size=14, weight='bold'), command=self.borrow_book)
+        self.borrow_btn.grid(row=3, column=1, pady=10, sticky='W')
+        self.return_btn = customtkinter.CTkButton(self.janela_borrow_livro, text="Sair", font=customtkinter.CTkFont(size=14, weight='bold'), command=self.janela_borrow_livro.destroy)
+        self.return_btn.grid(row=3, column=2, pady=10, sticky='W')
+        
+        self.populate_book_list()
 
-        # Configuração do layout
-        self.requisitar_livro.grid_columnconfigure(1, weight=1)
-        self.requisitar_livro.grid_columnconfigure((2, 3), weight=0)
-        self.requisitar_livro.grid_rowconfigure((0, 1, 2), weight=1)
+    def filter_list(self):
+        title_search = self.book_title_entry.get()
+        self.populate_book_list(title_search)
 
-        # Campo Título do Livro
-        self.titulo_lbl = customtkinter.CTkLabel(self.requisitar_livro, text="Título do livro:", font=customtkinter.CTkFont(size=12, weight="normal"))
-        self.titulo_lbl.grid(row=1, column=0, padx=20, pady=(20, 10))
-        self.titulo_entry = customtkinter.CTkEntry(self.requisitar_livro)
-        self.titulo_entry.grid(row=1, column=1, padx=20, pady=10)
+    def populate_book_list(self, title_search=None):
+        conn = sqlite3.connect('livraria.db')
+        cursor = conn.cursor()
+        if title_search:
+            cursor.execute("SELECT livro.*, GROUP_CONCAT(autor_livro.nome_autor, ', ') AS autores FROM livro LEFT JOIN autor_livro ON livro.isbn_livro = autor_livro.isbn_livro WHERE livro.user_id IS NULL AND livro.nome_livro LIKE ? GROUP BY livro.isbn_livro", (f'%{title_search}%',))
+        else:
+            cursor.execute("SELECT livro.*, GROUP_CONCAT(autor_livro.nome_autor, ', ') AS autores FROM livro LEFT JOIN autor_livro ON livro.isbn_livro = autor_livro.isbn_livro WHERE livro.user_id IS NULL GROUP BY livro.isbn_livro")
+        self.books = cursor.fetchall()
+        conn.close()
 
-        # Configuração no botão de requisitar livro
-        self.requisitar_btn = customtkinter.CTkButton(self.requisitar_livro, text="Requisitar Livro", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_requisicao)
-        self.requisitar_btn.grid(row=7, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
+        # Limpar o Treeview
+        for item in self.tree.get_children():
+            self.tree.delete(item)
 
-        # Configuração do botão de sair
-        self.sair_btn = customtkinter.CTkButton(self.requisitar_livro, text="Sair", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.requisitar_livro.destroy)
-        self.sair_btn.grid(row=8, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
+        # Preencher o Treeview com os livros
+        for book in self.books:
+            item = self.tree.insert('', 'end', values=book[:4])  # Excluding the 'autores' column
+            self.tree.set(item, "Autores", book[6] if book[6] else '')  # Use "Autores" instead of "autores"
 
-        self.usuario = usuario
-
-    def executar_requisicao(self):
-        titulo = self.titulo_entry.get()
-        requisitar_livro(self.usuario, titulo)
-        print("Livro requisitado com sucesso.")
+    def borrow_book(self):
+        item = self.tree.selection()[0] 
+        book_data = self.tree.item(item, "values")
+        conn = sqlite3.connect('livraria.db')
+        cursor = conn.cursor()
+        cursor.execute("UPDATE livro SET borrowed=TRUE, user_id=? WHERE isbn_livro=?", (self.logged_user['id'], book_data[0]))
+        conn.commit()
+        conn.close()
+        tkinter.messagebox.showinfo("Requisição do Livro",  f"O Livro {book_data[1]} foi requisitado com sucesso!")
+        self.populate_book_list()
