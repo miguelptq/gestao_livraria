@@ -72,6 +72,14 @@ class JanelaPesquisarLivro:
         self.tree.column("#1", stretch=True)
         self.tree.column("#2", stretch=True)
         self.tree.column("#3", stretch=True)
+        self.borrowed = []
+        if self.emprestimo_var.get() == 1:
+            print("fds1")
+            self.borrowed.append(1)
+        print(self.devolvido_var.get())
+        if self.devolvido_var.get() == 1:
+            print("fds")
+            self.borrowed.append(0)
         list_books = self.search(self.livro_lbl_entry.get())
 
     def executar_pesquisa(self):
@@ -92,10 +100,15 @@ class JanelaPesquisarLivro:
             FROM livro l
             JOIN autor_livro a ON l.isbn_livro = a.isbn_livro
         """
+        if search_query != "" or len(self.borrowed) == 1:
+            query += " WHERE"
         if search_query != "":
             query += f" WHERE l.nome_livro LIKE '%{search_query}%'"
-        if len(borrowed) == 1:
-            query += f" AND l.borrowed LIKE '%{borrowed[0]}%'"
+        if search_query != "" and len(self.borrowed) == 1:
+            query += " AND"
+        if len(self.borrowed) == 1:
+            query += f" AND l.borrowed = '{borrowed[0]}'"
+        print(query)
         cursor.execute(query)
         results = cursor.fetchall()
         conn.close()
