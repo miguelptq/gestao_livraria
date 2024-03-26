@@ -7,6 +7,10 @@ import tkinter.messagebox
 class JanelaDevolverLivro:
     def __init__(self, user):
         self.logged_user = user
+        conn = sqlite3.connect('livraria.db')
+        cursor = conn.cursor()
+        cursor.execute("Select role_name FROM roles where id = ?",(user['role'],))
+        self.role_name = cursor.fetchone()[0]
         
         self.janela_borrow_livro = customtkinter.CTkToplevel()
         self.janela_borrow_livro.title('Devolver Livro')
@@ -57,9 +61,26 @@ class JanelaDevolverLivro:
         conn = sqlite3.connect('livraria.db')
         cursor = conn.cursor()
         if title_search:
-            cursor.execute("SELECT livro.*, GROUP_CONCAT(autor_livro.nome_autor, ', ') AS autores FROM livro LEFT JOIN autor_livro ON livro.isbn_livro = autor_livro.isbn_livro WHERE livro.user_id = ? AND livro.nome_livro LIKE ? GROUP BY livro.isbn_livro", (self.logged_user['id'],f'%{title_search}%',))
+            query = """
+                SELECT livro.*, GROUP_CONCAT(autor_livro.nome_autor, ', ') AS autores FROM livro
+                LEFT JOIN autor_livro ON livro.isbn_livro = autor_livro.isbn_livro
+                WHERE livro.nome_livro LIKE ? AND livro.borrowed is TRUE GROUP BY livro.isbn_livro
+            """
+            if self.role_name in ('SuperAdmin', 'Employer'):
+                cursor.execute(query, (f'%{title_search}%',))
+            else:
+                cursor.execute(query, (self.logged_user['id'], f'%{title_search}%'))
         else:
-            cursor.execute("SELECT livro.*, GROUP_CONCAT(autor_livro.nome_autor, ', ') AS autores FROM livro LEFT JOIN autor_livro ON livro.isbn_livro = autor_livro.isbn_livro WHERE livro.user_id = ? GROUP BY livro.isbn_livro", (self.logged_user['id'],))
+            if self.role_name in ('SuperAdmin', 'Employer'):
+                query = """
+                    SELECT livro.*, GROUP_CONCAT(autor_livro.nome_autor, ', ') AS autores FROM livro
+                    LEFT JOIN autor_livro ON livro.isbn_livro = autor_livro.isbn_livro
+                    WHERE livro.borrowed is TRUE
+                    GROUP BY livro.isbn_livro
+                """
+                cursor.execute(query)
+            else:
+                cursor.execute("SELECT livro.*, GROUP_CONCAT(autor_livro.nome_autor, ', ') AS autores FROM livro LEFT JOIN autor_livro ON livro.isbn_livro = autor_livro.isbn_livro WHERE livro.user_id = ? AND livro.borrowed is TRUE GROUP BY livro.isbn_livro", (self.logged_user['id'],))
         self.books = cursor.fetchall()
         conn.close()
 
