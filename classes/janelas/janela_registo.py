@@ -104,7 +104,7 @@ class JanelaRegisto:
         print("Email recebido", email_user)
 
         if email_user!= "" and email_verificado(email_user):
-            self._user_email_valido_lbl.config(fg="green")
+            self._user_email_valido_lbl.configure(fg_color="green")
             return True
         else:
             print("Email invalido")
