@@ -120,12 +120,33 @@ class JanelaRemoverLivro:
             values = self.tree.item(livro_escolhido)['values']
             titulo_livro = values[1]
 
-            #remover o livro da BD
-            remover_livro(titulo_livro)
+            try:
+                conn = sqlite3.connect('livraria.db')
+                cursor = conn.cursor()
 
-            #remover o item da treeview
-            self.tree.delete(livro_escolhido)
+                # Busca o ISBN do livro selecionado
+                cursor.execute("SELECT isbn_livro FROM livro WHERE nome_livro=?", (titulo_livro,))
+                isbn_livro = cursor.fetchone()[0]
+
+                # Remover o livro da BD
+                cursor.execute("DELETE FROM livro WHERE nome_livro=?", (titulo_livro,))
+
+                # Remover os autores associados ao ISBN do livro da tabela 'autor_livro'
+                cursor.execute("DELETE FROM autor_livro WHERE isbn_livro=?", (isbn_livro,))
+
+                # Confirmar as alterações no banco de dados
+                conn.commit()
+
+                # Fechar a conexão
+                conn.close()
+
+                # Remover o item da treeview
+                self.tree.delete(livro_escolhido)
+
+                tkinter.messagebox.showinfo("Sucesso", f"O livro '{titulo_livro}' foi removido com sucesso.")
+            except sqlite3.Error as e:
+                tkinter.messagebox.showerror("Erro", f"Ocorreu um erro ao remover o livro: {e}")
         else:
-            #se nada estiver selecionado, mensagem de erro
+            # Se nada estiver selecionado, mensagem de erro
             tkinter.messagebox.showerror("Erro", "Nenhum livro foi selecionado")
 

@@ -32,34 +32,43 @@ class JanelaEditarRemoverUser():
         self.remove_button.grid(row = index + 3, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
     
     def update_user(self, user, final_list):
+        try:
+            final_list = tuple([permission for permission, var in self.permission_checkboxes if var.get() == 1])
         
-        final_list = tuple([permission for permission, var in self.permission_checkboxes if var.get() == 1])
-        
-        if user['role'] == 'Client':
-            perms_given = 'Employer'
-        else:
-            perms_given = 'SuperAdmin'
-        available_permissions = list_permissions(user, perms_given)
-        final_list = tuple(set(final_list).intersection(set(available_permissions)))
-        final_list_id = self.get_permissions_ids(final_list)
+            if user['role'] == 'Client':
+                perms_given = 'Employer'
+            else:
+                perms_given = 'SuperAdmin'
+            available_permissions = list_permissions(user, perms_given)
+            final_list = tuple(set(final_list).intersection(set(available_permissions)))
+            final_list_id = self.get_permissions_ids(final_list)
 
-        self.delete_user_permissions(user['username'])
-        for permission in final_list_id:
-            self.insert_user_permission(user['username'], permission)
+            self.delete_user_permissions(user['username'])
+            for permission in final_list_id:
+                self.insert_user_permission(user['username'], permission)
+            
+                messagebox.showinfo("Sucesso", "Utilizador actualizado com sucesso.")
+            if self.janela_user_manage:
+                self.janela_user_manage.withdraw()
+        except Exception as e:
+                messagebox.showerror("Erro", f"Ocorreu um erro:\n{(e)}")
             
 
     def remove_user(self, user):
-        result = messagebox.askquestion(title="Eliminar Utilizador", message=f"Tem a certeza que quer eliminar o utilizador '{user['username']}'?")
-        if result == 'yes':
-            self.delete_user_permissions(user['username'])
-            conn = sqlite3.connect('livraria.db')
-            c = conn.cursor()
-            c.execute("DELETE FROM users WHERE username = ?", (user['username'],))
-            conn.commit()
-            conn.close()
-            messagebox.showinfo(title="Delete User", message=f"O utilizador {user['username']} foi eliminado com sucesso.")
-        else:
-            pass
+        try:
+            result = messagebox.askquestion(title="Eliminar Utilizador", message=f"Tem a certeza que quer eliminar o utilizador '{user['username']}'?")
+            if result == 'yes':
+                self.delete_user_permissions(user['username'])
+                conn = sqlite3.connect('livraria.db')
+                c = conn.cursor()
+                c.execute("DELETE FROM users WHERE username = ?", (user['username'],))
+                conn.commit()
+                conn.close()
+                messagebox.showinfo(title="Delete User", message=f"O utilizador {user['username']} foi eliminado com sucesso.")
+            if self.janela_user_manage:
+                self.janela_user_manage.withdraw()
+        except Exception as e:
+                messagebox.showerro("Erro", f"Não foi possível remover o utilizador")
        
         
         pass
