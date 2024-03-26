@@ -9,14 +9,14 @@ class EditarDadosLivro:
         self.janela_anterior = janela_anterior
         
         self.edit_window = customtkinter.CTkToplevel()
-        self.edit_window.title('Editar Dados do Livro')
+        self.edit_window.title('Edit Books Data')
         self.edit_window.iconbitmap('')
         self.edit_window.configure(bg="#f0f0f0")
         
         self.setup_ui()
 
     def setup_ui(self):
-        labels = ['ISBN', 'Título', 'Descrição', 'Ano']
+        labels = ['ISBN', 'Title', 'Description', 'Year', 'Authors']
 
         for i, label_text in enumerate(labels):
             label = customtkinter.CTkLabel(self.edit_window, text=label_text + ":", font=customtkinter.CTkFont(size=14, weight='bold'))
@@ -35,7 +35,7 @@ class EditarDadosLivro:
             setattr(self, f"{label_text.lower()}_entry", entry)
 
         # Listbox para editar autores
-        author_label = customtkinter.CTkLabel(self.edit_window, text="Autores:", font=customtkinter.CTkFont(size=14, weight='bold'))
+        author_label = customtkinter.CTkLabel(self.edit_window, text="Authors:", font=customtkinter.CTkFont(size=14, weight='bold'))
         author_label.grid(row=len(labels), column=0, padx=10, pady=10, sticky='W')
 
         self.author_listbox = Listbox(self.edit_window, font=customtkinter.CTkFont(size=14))
@@ -97,7 +97,7 @@ class EditarDadosLivro:
 
     def save_changes(self):
         # Guardar
-        updated_data = [getattr(self, f"{label.lower()}_entry").get() for label in ['ISBN', 'Título', 'Descrição', 'Ano']]
+        updated_data = [getattr(self, f"{label.lower()}_entry").get() for label in ['ISBN', 'Title', 'Description', 'Year', 'Authors']]
 
         conn = sqlite3.connect('livraria.db')
         cursor = conn.cursor()

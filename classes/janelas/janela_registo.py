@@ -41,15 +41,15 @@ class JanelaRegisto:
             conn.close()
             self.permission_list = list_permissions(user, self.registering_role_name)
         self.janela_registo =  customtkinter.CTkToplevel()
-        self.janela_registo.title('Registo de Utilizador') # muda o titulo
+        self.janela_registo.title('Register a New User') # muda o titulo
         
 
         # Criar label registo
-        self.registo_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Registo', font =customtkinter.CTkFont(size=20, weight='bold'))
+        self.registo_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Register', font =customtkinter.CTkFont(size=20, weight='bold'))
         self.registo_lbl.grid(row = 0, column = 0, columnspan = 2, pady = 20, sticky = 'NSEW')
 
         # Configuração do campo de nome do utilizador
-        self.user_name_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Utilizador: ',font =customtkinter.CTkFont(size=14, weight='bold'))
+        self.user_name_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'USername: ',font =customtkinter.CTkFont(size=14, weight='bold'))
         self.user_name_lbl.grid(row = 1, column = 0, sticky = 'E', pady = 20)
         self.user_name_entry =  customtkinter.CTkEntry(self.janela_registo, font =customtkinter.CTkFont(size=14, weight='bold'))
         self.user_name_entry.grid(row = 1, column = 1, pady = 10)
@@ -74,7 +74,7 @@ class JanelaRegisto:
             choices = ["Client"]
             if self.registering_role_name == "SuperAdmin":
                 choices.append("Employer")
-            self.user_role_lbl =  customtkinter.CTkLabel(self.janela_registo, text="Selecione um Cargo: ", font =customtkinter.CTkFont(size=14, weight='normal'))
+            self.user_role_lbl =  customtkinter.CTkLabel(self.janela_registo, text="Pick a Role: ", font =customtkinter.CTkFont(size=14, weight='normal'))
             self.user_role_lbl.grid(row = 4, column = 0, sticky = 'E', pady = 20)
             self.role_name =  customtkinter.CTkComboBox(self.janela_registo, values=choices,state="readonly")
             self.role_name.set("Client")
@@ -91,11 +91,11 @@ class JanelaRegisto:
         if hasattr(self, 'permission_list'):
             row = 7 + len(self.permission_list)
         # Configuração do botão de registar
-        self.registar_btn =  customtkinter.CTkButton(self.janela_registo, text = "Registar", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.registar_utilizador)
+        self.registar_btn =  customtkinter.CTkButton(self.janela_registo, text = "Register", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.registar_utilizador)
         self.registar_btn.grid(row = row, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
 
         # Configuração do botão de sair
-        self.sair_btn =  customtkinter.CTkButton(self.janela_registo, text = "Sair", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.janela_registo.destroy)
+        self.sair_btn =  customtkinter.CTkButton(self.janela_registo, text = "Quit", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.janela_registo.destroy)
         self.sair_btn.grid(row = row + 1, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
     
     def email_verificado(self):
@@ -108,7 +108,7 @@ class JanelaRegisto:
             return True
         else:
             print("Email invalido")
-            tkinter.messagebox.showerror("Email inválido",  "O email inserido não é válido!")
+            tkinter.messagebox.showerror("Invalid Email",  "The email is not valid.")
             return False
 
     def registar_utilizador(self):

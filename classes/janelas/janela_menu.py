@@ -26,18 +26,18 @@ class JanelaMenu:
         conn.close()
         button_count = 1
         self.janela_menu = customtkinter.CTkToplevel()
-        self.janela_menu.title(f'Menu do {role_name}') # muda o titulo
+        self.janela_menu.title(f'{role_name} Menu') # muda o titulo
 
         
         # Criar label registo
-        self.menu_lbl =  customtkinter.CTkLabel(self.janela_menu, text = f'Menu do {role_name}', font =customtkinter.CTkFont(size=20, weight='bold'))
+        self.menu_lbl =  customtkinter.CTkLabel(self.janela_menu, text = f'{role_name} Menu', font =customtkinter.CTkFont(size=20, weight='bold'))
         self.menu_lbl.grid(row = 0, column = 0, columnspan = 2, pady = 20, sticky = 'NSEW')
         for permission in permissions:
             button_var = f"{permission}_{button_count}"
             self.button_var =  customtkinter.CTkButton(self.janela_menu, text=permission, font=customtkinter.CTkFont(size=14, weight='bold'), command=lambda option=permission: self.menu_redirect(option))
             self.button_var.grid(row = button_count, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW") 
             button_count += 1
-        self.sair_btn =  customtkinter.CTkButton(self.janela_menu, text = "Sair", font= customtkinter.CTkFont(size=14, weight='bold'), command = self.janela_menu.destroy)
+        self.sair_btn =  customtkinter.CTkButton(self.janela_menu, text = "Quit", font= customtkinter.CTkFont(size=14, weight='bold'), command = self.janela_menu.destroy)
         self.sair_btn.grid(row = button_count + 1, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
 
 

@@ -25,7 +25,7 @@ def pesquisar_livros(admin=False):
 class JanelaRemoverLivro:
     def __init__(self, user):
         self.remover_livro = customtkinter.CTkToplevel()
-        self.remover_livro.title("Remover Livro")
+        self.remover_livro.title("Remove Book")
 
         # Configuração da janela
         self.remover_livro.geometry(f'{850}x{500}')
@@ -36,39 +36,42 @@ class JanelaRemoverLivro:
         self.remover_livro.grid_rowconfigure((0, 1, 2), weight=1)
 
         # Campo Remover Livro
-        self.livro_lbl = customtkinter.CTkLabel(self.remover_livro, text="Insira alguma informação do livro (Titulo, ISBN, Autor, Descrição):", font=customtkinter.CTkFont(size=12, weight="normal"))
+        self.livro_lbl = customtkinter.CTkLabel(self.remover_livro, text="Insert the Title of the Book:", font=customtkinter.CTkFont(size=12, weight="normal"))
         self.livro_lbl.grid(row=1, column=0, padx=20, pady=(20, 10))
         self.livro_lbl_entry = customtkinter.CTkEntry(self.remover_livro)
         self.livro_lbl_entry.grid(row=1, column=1, padx=20, pady=10)
 
 
          # Configuração do botão de pesquisa de livro
-        self.pesquisa_btn = customtkinter.CTkButton(self.remover_livro, text="Pesquisar", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_pesquisa)
+        self.pesquisa_btn = customtkinter.CTkButton(self.remover_livro, text="Search", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_pesquisa)
         self.pesquisa_btn.grid(row=2, column=4, columnspan=2, padx=20, pady=10)
 
 
         # Configuração no botão de remover livro
-        self.remover_btn = customtkinter.CTkButton(self.remover_livro, text="Remover Livro", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.remover_livro_escolhido)
+        self.remover_btn = customtkinter.CTkButton(self.remover_livro, text="Remove Book", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.remover_livro_escolhido)
         self.remover_btn.grid(row=7, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
 
         # Configuração do botão de sair
-        self.sair_btn = customtkinter.CTkButton(self.remover_livro, text="Sair", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.remover_livro.destroy)
+        self.sair_btn = customtkinter.CTkButton(self.remover_livro, text="Quit", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.remover_livro.destroy)
         self.sair_btn.grid(row=8, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
         
         # Configuração do CTkTreeview para exibir os resultados
-        self.tree = ttk.Treeview(self.remover_livro, columns=("ISBN", "Título", "Descrição", "Autores"))
+        self.tree = ttk.Treeview(self.remover_livro, columns=("ISBN", "Title", "Description", "Year", "Authors"), show="headings")
         self.tree.grid(row=2, column=0, columnspan=4, padx=20, pady=10, sticky="nsew")
 
         # Configurando as colunas do CTkTreeview
         self.tree.heading("ISBN", text="ISBN")
-        self.tree.heading("Título", text="Título")
-        self.tree.heading("Descrição", text="Descrição")
-        self.tree.heading("Autores", text="Autores")
+        self.tree.heading("Title", text="Title")
+        self.tree.heading("Description", text="Description")
+        self.tree.heading("Year", text="Year")
+        self.tree.heading("Authors", text="Authors")
 
         # Configurando o redimensionamento das colunas
+        self.tree.column("#0", width=0, stretch=False)
         self.tree.column("#1", stretch=True)
         self.tree.column("#2", stretch=True)
         self.tree.column("#3", stretch=True)
+        self.tree.column("#4", stretch=True)
 
          # Estilizando a árvore
         self.style = ttk.Style()
@@ -143,10 +146,10 @@ class JanelaRemoverLivro:
                 # Remover o item da treeview
                 self.tree.delete(livro_escolhido)
 
-                tkinter.messagebox.showinfo("Sucesso", f"O livro '{titulo_livro}' foi removido com sucesso.")
+                tkinter.messagebox.showinfo("Removed", f"The book '{titulo_livro}' has been removed.")
             except sqlite3.Error as e:
-                tkinter.messagebox.showerror("Erro", f"Ocorreu um erro ao remover o livro: {e}")
+                tkinter.messagebox.showerror("Error", f"{e}")
         else:
             # Se nada estiver selecionado, mensagem de erro
-            tkinter.messagebox.showerror("Erro", "Nenhum livro foi selecionado")
+            tkinter.messagebox.showerror("Error", "No book has been selected")
 
