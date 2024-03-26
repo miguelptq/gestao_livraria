@@ -23,7 +23,7 @@ class JanelaPesquisarLivro:
             conn.close()
             self.permission_list = list_permissions(user, self.registering_role_name)
         self.pesquisar_livro = customtkinter.CTkToplevel()
-        self.pesquisar_livro.title("Pesquisar Livros")
+        self.pesquisar_livro.title("Search Books")
 
         # Configuração da janela
         self.pesquisar_livro.geometry(f'{850}x{500}')
@@ -34,44 +34,47 @@ class JanelaPesquisarLivro:
         self.pesquisar_livro.grid_rowconfigure((0, 1, 2), weight=1)
 
         # Campo Pesquisar Livro
-        self.livro_lbl = customtkinter.CTkLabel(self.pesquisar_livro, text="Pesquise o Titulo do livro:", font=customtkinter.CTkFont(size=12, weight="normal"))
+        self.livro_lbl = customtkinter.CTkLabel(self.pesquisar_livro, text="Title: ", font=customtkinter.CTkFont(size=12, weight="normal"))
         self.livro_lbl.grid(row=1, column=0, padx=20, pady=(20, 10))
         self.livro_lbl_entry = customtkinter.CTkEntry(self.pesquisar_livro)
         self.livro_lbl_entry.grid(row=1, column=1, padx=20, pady=10)
 
          # Checkbox de empréstimo
         self.emprestimo_var = IntVar()
-        self.emprestimo_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Emprestados", variable=self.emprestimo_var)
+        self.emprestimo_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Borrowed", variable=self.emprestimo_var)
         self.emprestimo_cb.grid(row=1, column=2, padx=20, pady=10)
 
          # Checkbox de devolução
         self.devolvido_var = IntVar()  
-        self.devolvido_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Devolvidos", variable=self.devolvido_var)
+        self.devolvido_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Returned", variable=self.devolvido_var)
         self.devolvido_cb.grid(row=1, column=3, padx=20, pady=10)
 
 
         # Configuração do botão de pesquisa de livro
-        self.pesquisa_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Pesquisar", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_pesquisa)
+        self.pesquisa_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Search", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_pesquisa)
         self.pesquisa_btn.grid(row=2, column=4, columnspan=2, padx=20, pady=10)
 
         # Configuração do botão de sair
-        self.sair_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Sair", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.pesquisar_livro.destroy)
+        self.sair_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Quit", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.pesquisar_livro.destroy)
         self.sair_btn.grid(row=3, column=5, columnspan=1, padx=20, pady=10, sticky="nsew")
 
         # Configuração do CTkTreeview para exibir os resultados
-        self.tree = ttk.Treeview(self.pesquisar_livro, columns=("ISBN", "Título", "Descrição", "Autores"))
+        self.tree = ttk.Treeview(self.pesquisar_livro, columns=("ISBN", "Title", "Description", "Year", "Authors"), show="headings")
         self.tree.grid(row=2, column=0, columnspan=4, padx=20, pady=10, sticky="nsew")
 
         # Configurando as colunas do CTkTreeview
         self.tree.heading("ISBN", text="ISBN")
-        self.tree.heading("Título", text="Título")
-        self.tree.heading("Descrição", text="Descrição")
-        self.tree.heading("Autores", text="Autores")
+        self.tree.heading("Title", text="Title")
+        self.tree.heading("Description", text="Description")
+        self.tree.heading("Year", text="Year")
+        self.tree.heading("Authors", text="Authors")
 
         # Configurando o redimensionamento das colunas
+        self.tree.column("#0", width=0, stretch=False)
         self.tree.column("#1", stretch=True)
         self.tree.column("#2", stretch=True)
         self.tree.column("#3", stretch=True)
+        self.tree.column("#4", stretch=True)
         
         list_books = self.search(self.livro_lbl_entry.get())
 

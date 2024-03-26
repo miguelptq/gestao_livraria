@@ -28,28 +28,28 @@ class JanelaListUsers:
         self.placeholders = ', '.join(['?' for _ in self.roles_names])
         
         self.janela_lista_users = customtkinter.CTkToplevel()
-        self.janela_lista_users.title('Lista de Utilizadores')
+        self.janela_lista_users.title('Users List')
         self.janela_lista_users.iconbitmap('') # muda o Icon
         self.janela_lista_users.configure(bg="#f0f0f0")
-        self.user_list_lbl = customtkinter.CTkLabel(self.janela_lista_users, text = 'Lista de Utilizadores', font=customtkinter.CTkFont(size=20, weight='bold'))
+        self.user_list_lbl = customtkinter.CTkLabel(self.janela_lista_users, text = 'Users List', font=customtkinter.CTkFont(size=20, weight='bold'))
         self.user_list_lbl.grid(row = 0, column = 0, columnspan = 4, pady = 20, sticky = 'NSEW')
         # Configuração do campo de nome do utilizador
-        self.user_name_lbl = customtkinter.CTkLabel(self.janela_lista_users, text = ' Nome do Utilizador', font=customtkinter.CTkFont(size=14, weight='normal'))
+        self.user_name_lbl = customtkinter.CTkLabel(self.janela_lista_users, text = ' Username', font=customtkinter.CTkFont(size=14, weight='normal'))
         self.user_name_lbl.grid(row = 1, column = 0, pady = 10, sticky='W')
         self.user_name_entry = customtkinter.CTkEntry(self.janela_lista_users, font = customtkinter.CTkFont(size=14, weight='normal'))
         self.user_name_entry.grid(row = 1, column = 1, pady = 10, sticky='W')
 
         #Botão de filtrar utilizadores
-        self.filter_btn = customtkinter.CTkButton(self.janela_lista_users, text = "Filtrar", font=customtkinter.CTkFont(size=14, weight='normal'), command = self.filter_list)
+        self.filter_btn = customtkinter.CTkButton(self.janela_lista_users, text = "Filter", font=customtkinter.CTkFont(size=14, weight='normal'), command = self.filter_list)
         self.filter_btn.grid(row = 2, column = 1, pady = 10, sticky='W')
 
         #Botão de editar as informações do utilizadores
-        self.editar_btn = customtkinter.CTkButton(self.janela_lista_users, text="Editar", font=customtkinter.CTkFont(size=14, weight='normal'), command=self.user_manager)
+        self.editar_btn = customtkinter.CTkButton(self.janela_lista_users, text="Edit", font=customtkinter.CTkFont(size=14, weight='normal'), command=self.user_manager)
         self.editar_btn.grid(row=3, column=1, pady=10, sticky='W')
 
 
         #Botáo de sair
-        self.sair_btn = customtkinter.CTkButton(self.janela_lista_users, text="Sair", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.janela_lista_users.destroy )
+        self.sair_btn = customtkinter.CTkButton(self.janela_lista_users, text="Quit", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.janela_lista_users.destroy )
         self.sair_btn.grid(row = 4, column=1, pady=10, sticky= 'W')
 
 
@@ -67,10 +67,10 @@ class JanelaListUsers:
             users_data[username]['permissions'].append(permission_name)
 
         # Create a Treeview widget
-        self.tree= ttk.Treeview(self.janela_lista_users, columns=('Username', 'Cargo', 'Permissões'), show='headings')
+        self.tree= ttk.Treeview(self.janela_lista_users, columns=('Username', 'Role', 'Permissions'), show='headings')
         self.tree.heading('Username', text='Username', command=lambda: self.tree.column('Username'))
-        self.tree.heading('Cargo', text='Cargo', command=lambda: self.tree.column('Role'))
-        self.tree.heading('Permissões', text='Permissões', command=lambda: self.tree.column('Permissions'))
+        self.tree.heading('Role', text='Role', command=lambda: self.tree.column('Role'))
+        self.tree.heading('Permissions', text='Permissions', command=lambda: self.tree.column('Permissions'))
 
         for username, data in users_data.items():
             permissions = ', '.join(data['permissions'])

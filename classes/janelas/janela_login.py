@@ -21,14 +21,14 @@ class JanelaLogin:
         
         #Criar a janela princiapl
         self.janela_login = customtkinter.CTkToplevel()
-        self.janela_login.title('Login de Utilizador') # muda o titulo
+        self.janela_login.title('Users Login') # muda o titulo
 
         # Criar label registo
         self.login_lbl = customtkinter.CTkLabel(self.janela_login, text = 'Login', font = customtkinter.CTkFont(size=20, weight='bold'))
         self.login_lbl.grid(row = 0, column = 0, columnspan = 2, pady = 20, sticky = 'NSEW')
 
         # Configuração do campo de nome do utilizador
-        self.user_name_lbl = customtkinter.CTkLabel(self.janela_login, text = 'Utilizador: ', font =customtkinter.CTkFont(size=14, weight='normal'))
+        self.user_name_lbl = customtkinter.CTkLabel(self.janela_login, text = 'User: ', font =customtkinter.CTkFont(size=14, weight='normal'))
         self.user_name_lbl.grid(row = 1, column = 0, sticky = 'E', pady = 20)
         self.user_name_entry = customtkinter.CTkEntry(self.janela_login, font= customtkinter.CTkFont(size=14, weight='normal'))
         self.user_name_entry.grid(row = 1, column = 1, pady = 10)
@@ -44,7 +44,7 @@ class JanelaLogin:
         self.registar_btn.grid(row = 4, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
 
         # Configuração do botão de sair
-        self.sair_btn = customtkinter.CTkButton(self.janela_login, text = "Sair", font = customtkinter.CTkFont(size=14, weight='bold'), command = self.janela_login.destroy)
+        self.sair_btn = customtkinter.CTkButton(self.janela_login, text = "Quit", font = customtkinter.CTkFont(size=14, weight='bold'), command = self.janela_login.destroy)
         self.sair_btn.grid(row = 5, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
     
     def login_user(self):

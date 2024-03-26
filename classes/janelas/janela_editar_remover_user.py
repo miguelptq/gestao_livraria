@@ -12,10 +12,10 @@ from tkinter import messagebox
 class JanelaEditarRemoverUser():
     def __init__(self, logged_role, user):
         self.janela_user_manage = customtkinter.CTkToplevel()
-        self.janela_user_manage.title('Gerir Utilizadores') # muda o titulo
+        self.janela_user_manage.title('Manage Users') # muda o titulo
         self.janela_user_manage.iconbitmap('') # muda o Icon
         self.janela_user_manage.configure(bg="#f0f0f0")
-        self.user_title = customtkinter.CTkLabel(self.janela_user_manage, text = f'Gerir Utilizadores: {user['username']}',font=customtkinter.CTkFont(size=20, weight='bold'))
+        self.user_title = customtkinter.CTkLabel(self.janela_user_manage, text = f'Manage Users: {user['username']}',font=customtkinter.CTkFont(size=20, weight='bold'))
         self.user_title.grid(row = 0, column = 0, columnspan = 2, pady = 20, sticky = 'NSEW')
         self.permission_list = list_permissions(user, logged_role)
         self.permission_checkboxes = []
@@ -26,9 +26,9 @@ class JanelaEditarRemoverUser():
             if permission in tuple(user['permissions']):
                 var.set(1)
             self.permission_checkboxes.append((permission, var))        
-        self.update_button = customtkinter.CTkButton(self.janela_user_manage, text = "Guardar", font=customtkinter.CTkFont(size=14, weight='normal'), command = lambda: self.update_user(user, logged_role))
+        self.update_button = customtkinter.CTkButton(self.janela_user_manage, text = "Save", font=customtkinter.CTkFont(size=14, weight='normal'), command = lambda: self.update_user(user, logged_role))
         self.update_button.grid(row = index + 2, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
-        self.remove_button = customtkinter.CTkButton(self.janela_user_manage, text = "Remover", font=customtkinter.CTkFont(size=14, weight='normal'), command = lambda: self.remove_user(user))
+        self.remove_button = customtkinter.CTkButton(self.janela_user_manage, text = "Remove", font=customtkinter.CTkFont(size=14, weight='normal'), command = lambda: self.remove_user(user))
         self.remove_button.grid(row = index + 3, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
     
     def update_user(self, user, final_list):
@@ -47,16 +47,16 @@ class JanelaEditarRemoverUser():
             for permission in final_list_id:
                 self.insert_user_permission(user['username'], permission)
             
-                messagebox.showinfo("Sucesso", "Utilizador actualizado com sucesso.")
+                messagebox.showinfo("Updated", "User updated sucessfully.")
             if self.janela_user_manage:
                 self.janela_user_manage.withdraw()
         except Exception as e:
-                messagebox.showerror("Erro", f"Ocorreu um erro:\n{(e)}")
+                messagebox.showerror("Error", f"\n{(e)}")
             
 
     def remove_user(self, user):
         try:
-            result = messagebox.askquestion(title="Eliminar Utilizador", message=f"Tem a certeza que quer eliminar o utilizador '{user['username']}'?")
+            result = messagebox.askquestion(title="Delete User", message=f"Are you sure you want to delete '{user['username']}'?")
             if result == 'yes':
                 self.delete_user_permissions(user['username'])
                 conn = sqlite3.connect('livraria.db')
@@ -64,11 +64,11 @@ class JanelaEditarRemoverUser():
                 c.execute("DELETE FROM users WHERE username = ?", (user['username'],))
                 conn.commit()
                 conn.close()
-                messagebox.showinfo(title="Delete User", message=f"O utilizador {user['username']} foi eliminado com sucesso.")
+                messagebox.showinfo(title="Delete User", message=f"User {user['username']} has been deleted.")
             if self.janela_user_manage:
                 self.janela_user_manage.withdraw()
         except Exception as e:
-                messagebox.showerro("Erro", f"Não foi possível remover o utilizador")
+                messagebox.showerro("Error", f"The user was not deleted")
        
         
         pass

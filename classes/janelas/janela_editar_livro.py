@@ -9,30 +9,30 @@ class JanelaEditarLivro:
         self.logged_user = user 
         
         self.janela_editar_livro = customtkinter.CTkToplevel()
-        self.janela_editar_livro.title('Editar Livro')
+        self.janela_editar_livro.title('Edit Books')
         self.janela_editar_livro.iconbitmap('')
         self.janela_editar_livro.configure(bg="#f0f0f0")
         
-        self.book_list_lbl = customtkinter.CTkLabel(self.janela_editar_livro, text='Lista de Livros', font=customtkinter.CTkFont(size=20, weight='bold'))
+        self.book_list_lbl = customtkinter.CTkLabel(self.janela_editar_livro, text='Books', font=customtkinter.CTkFont(size=20, weight='bold'))
         self.book_list_lbl.grid(row=0, column=0, columnspan=2, pady=20, sticky='NSEW')
         
         # Filtra os livros
-        self.book_title_lbl = customtkinter.CTkLabel(self.janela_editar_livro, text='Título do Livro:', font=customtkinter.CTkFont(size=14, weight='bold'))
+        self.book_title_lbl = customtkinter.CTkLabel(self.janela_editar_livro, text='Title:', font=customtkinter.CTkFont(size=14, weight='bold'))
         self.book_title_lbl.grid(row=1, column=0, pady=10, sticky='W')
         
         self.book_title_entry = customtkinter.CTkEntry(self.janela_editar_livro, font=customtkinter.CTkFont(size=14, weight='bold'))
         self.book_title_entry.grid(row=1, column=1, pady=10, sticky='W')
         
-        self.filter_btn = customtkinter.CTkButton(self.janela_editar_livro, text="Filtrar", font=customtkinter.CTkFont(size=14, weight='bold'), command=self.filter_list)
+        self.filter_btn = customtkinter.CTkButton(self.janela_editar_livro, text="Filter", font=customtkinter.CTkFont(size=14, weight='bold'), command=self.filter_list)
         self.filter_btn.grid(row=1, column=2, pady=10, sticky='W')
 
         # Mostra os livros
-        self.tree = ttk.Treeview(self.janela_editar_livro, columns=('ISBN', 'Título', 'Descrição', 'Ano', 'Autores'), show='headings')
-        self.tree.heading('ISBN', text='ISBN')
-        self.tree.heading('Título', text='Título')
-        self.tree.heading('Descrição', text='Descrição')
-        self.tree.heading('Ano', text='Ano')
-        self.tree.heading('Autores', text='Autores')
+        self.tree = ttk.Treeview(self.janela_editar_livro, columns=("ISBN", "Title", "Description", "Year", "Authors"), show="headings")
+        self.tree.heading("ISBN", text="ISBN")
+        self.tree.heading("Title", text="Title")
+        self.tree.heading("Description", text="Description")
+        self.tree.heading("Year", text="Year")
+        self.tree.heading("Authors", text="Authors")
         self.tree.grid(row=2, column=0, columnspan=3, sticky='nsew')
         
         self.janela_editar_livro.grid_rowconfigure(0, weight=1)

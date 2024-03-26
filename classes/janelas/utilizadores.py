@@ -21,14 +21,14 @@ class utilizadores(customtkinter.CTk):
         self.menu_lateral= customtkinter.CTkFrame(self, width=140, corner_radius=0)
         self.menu_lateral.grid(row = 0, column = 0, rowspan = 4, sticky = "NSEW")
         self.menu_lateral.grid_rowconfigure(4, weight=1)
-        self.logo_lbl = customtkinter.CTkLabel(self.menu_lateral, text="Utilizadores", font= customtkinter.CTkFont(size=20, weight="bold"))
+        self.logo_lbl = customtkinter.CTkLabel(self.menu_lateral, text="Users", font= customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_lbl.grid(row=0, column = 0, padx=20, pady=(20,10))
         #botoes e grids
-        self.menu_lateral_botao1=customtkinter.CTkButton(self.menu_lateral, text="Listar Livros" , command= self.listar_livros)
+        self.menu_lateral_botao1=customtkinter.CTkButton(self.menu_lateral, text="List Books" , command= self.listar_livros)
         self.menu_lateral_botao1.grid(row=1, column=0, padx=20, pady=10)
-        self.menu_lateral_botao2 =customtkinter.CTkButton(self.menu_lateral, text="Empréstimo de Livros", command= self.emprestar_livros)
+        self.menu_lateral_botao2 =customtkinter.CTkButton(self.menu_lateral, text="Borrow Books", command= self.emprestar_livros)
         self.menu_lateral_botao2.grid(row= 2, column = 0, padx=20, pady= 10)
-        self.menu_lateral_botao3 = customtkinter.CTkButton(self.menu_lateral, text= "Devolver Livros" ,command= self.devolver_livros)
+        self.menu_lateral_botao3 = customtkinter.CTkButton(self.menu_lateral, text= "Return Books" ,command= self.devolver_livros)
         self.menu_lateral_botao3.grid(row=3, column=0, padx=20, pady=10)
 
         #label e grid do modo de aparência
@@ -51,5 +51,3 @@ class utilizadores(customtkinter.CTk):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
         customtkinter.set_widget_scaling(new_scaling_float)
 
-    def menu_lateral_button_event(self):
-        print("Botao Lateral Clickado")
