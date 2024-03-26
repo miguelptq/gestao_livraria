@@ -49,6 +49,9 @@ class Book:
     def create(self, authors = []):
         if not self._isbn_livro or not self._nome_livro or not self._desc_livro or not self._ano_livro or len(authors) == 0:
             return False, "Error: ISBN, Title, Description, Year and authors must be provided..","Red"
+        
+        if len(self._isbn_livro) != 13 or not self._isbn_livro.startswith(('978', '979')):
+            return False, "Error: ISBN must be 13 digits long and start with either 978 or 979.","Red"
 
         # Ligar a Base de Dados
         conn = sqlite3.connect('livraria.db')
