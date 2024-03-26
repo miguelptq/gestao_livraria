@@ -58,17 +58,22 @@ class JanelaEditarRemoverUser():
         try:
             result = messagebox.askquestion(title="Eliminar Utilizador", message=f"Tem a certeza que quer eliminar o utilizador '{user['username']}'?")
             if result == 'yes':
-                self.delete_user_permissions(user['username'])
                 conn = sqlite3.connect('livraria.db')
                 c = conn.cursor()
-                c.execute("DELETE FROM users WHERE username = ?", (user['username'],))
-                conn.commit()
-                conn.close()
-                messagebox.showinfo(title="Delete User", message=f"O utilizador {user['username']} foi eliminado com sucesso.")
+                c.execute("SELECT COUNT(*) FROM livro WHERE user_id = (SELECT id FROM users WHERE username = ?)", (user['username'],))
+                count = c.fetchone()[0]
+                if count > 0:
+                    messagebox.showerror("Erro", f"O utilizador{user['username']} tem de devolver os livros primeiro, tem {count} livros por devolver!")
+                else:
+                    self.delete_user_permissions(user['username'])
+                    c.execute("DELETE FROM users WHERE username = ?", (user['username'],))
+                    conn.commit()
+                    conn.close()
+                    messagebox.showinfo(title="Delete User", message=f"O utilizador {user['username']} foi eliminado com sucesso.")
             if self.janela_user_manage:
                 self.janela_user_manage.withdraw()
         except Exception as e:
-                messagebox.showerro("Erro", f"Não foi possível remover o utilizador")
+                messagebox.showerror("Erro", f"Não foi possível remover o utilizador")
        
         
         pass

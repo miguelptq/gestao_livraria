@@ -75,7 +75,7 @@ class JanelaListUsers:
         for username, data in users_data.items():
             permissions = ', '.join(data['permissions'])
             self.tree.insert('', 'end', values=(username, data['role'], permissions))
-            self.tree.bind("<Double-1>", lambda event: self.user_manager(event, self.tree))
+            self.tree.bind("<Double-1>", lambda event: self.user_manager(event))
         self.tree.grid(row=2, column=0, sticky='nsew')
         self.janela_lista_users.grid_rowconfigure(0, weight=1)
         self.janela_lista_users.grid_columnconfigure(0, weight=1)
