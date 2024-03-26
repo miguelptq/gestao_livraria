@@ -69,6 +69,7 @@ class JanelaInserirLivro:
         self.add_autor_btn.grid(row=5, column=2, padx=(10, 20), pady=10)
 
 
+
     def guardar_livro(self, autores):
         isbn = self.isbn_lbl_entry.get()
         title = self.nome_livro_entry.get()

@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 
 class Book:
@@ -47,11 +48,15 @@ class Book:
         self._user_id = user_id
     
     def create(self, authors = []):
+
         if not self._isbn_livro or not self._nome_livro or not self._desc_livro or not self._ano_livro or len(authors) == 0:
             return False, "Error: ISBN, Title, Description, Year and authors must be provided..","Red"
         
-        if len(self._isbn_livro) != 13 or not self._isbn_livro.startswith(('978', '979')):
-            return False, "Error: ISBN must be 13 digits long and start with either 978 or 979.","Red"
+        if len(self._isbn_livro) != 13 or not self._isbn_livro.startswith(('978', '979')) or isinstance(self._isbn_livro, int):
+            return False, "Error: ISBN must be 13 digits long and start with either 978 or 979..","Red"
+        
+        if not self.validate_year(self._ano_livro):
+            return False, "Error: Year must be valid..","Red"
 
         # Ligar a Base de Dados
         conn = sqlite3.connect('livraria.db')
@@ -75,5 +80,16 @@ class Book:
         finally:
             # Close the connection
             conn.close()
+    
+    def validate_year(self, value):
+        try:
+            if value:
+                year = int(value)
+                current_year = datetime.datetime.now().year
+                # Allow only integer values and limit to the current year
+                return 0 < year <= current_year
+            return True
+        except ValueError:
+            return False
         
         
