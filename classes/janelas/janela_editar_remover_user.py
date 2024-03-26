@@ -69,7 +69,7 @@ class JanelaEditarRemoverUser():
                     c.execute("DELETE FROM users WHERE username = ?", (user['username'],))
                     conn.commit()
                     conn.close()
-                    messagebox.showinfo(title="Delete User", message=f"O utilizador {user['username']} foi eliminado com sucesso.")
+                    messagebox.showinfo(title="Delete User", message=f"The user {user['username']} was deleted successfully.")
             if self.janela_user_manage:
                 self.janela_user_manage.withdraw()
         except Exception as e:
