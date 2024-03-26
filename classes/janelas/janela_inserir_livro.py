@@ -69,6 +69,7 @@ class JanelaInserirLivro:
         self.add_autor_btn.grid(row=5, column=2, padx=(10, 20), pady=10)
 
 
+
     def guardar_livro(self, autores):
         isbn = self.isbn_lbl_entry.get()
         title = self.nome_livro_entry.get()
@@ -80,8 +81,11 @@ class JanelaInserirLivro:
         book.set_desc(desc)
         book.set_year(year)
         creation = book.create(autores)
+        if hasattr(self,'book_creation_msg'):
+            self.book_creation_msg.destroy()
         self.book_creation_msg = Label(self.janela_inserir, text = creation[1], fg = creation[2])
         self.book_creation_msg.grid(row = self.proxima_linha, column = 0, columnspan = 2)
+        return creation[0]
 
     def add_autor(self):
         self.numeroautores += 1
@@ -113,8 +117,9 @@ class JanelaInserirLivro:
         # Get authors from all entry widgets, including the first one
         autores = [self.novo_autor_entry.get()] + [entry.get() for entry in self.author_labels_entries[1::2] if entry.get()]
         
-        self.guardar_livro(autores)
-        self.clear_entries()
+        creation = self.guardar_livro(autores)
+        if creation:
+            self.clear_entries()
         
 
     def clear_entries(self):
