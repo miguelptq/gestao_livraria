@@ -32,7 +32,7 @@ class JanelaInserirLivro:
         self.nome_livro_entry.grid(row = 2, column = 1, pady = 10)
 
         # Configuração do campo Descrição Livro
-        self.desc_livro_lbl = customtkinter.CTkLabel(self.janela_inserir, text = 'Descrição:',font=customtkinter.CTkFont(size=20, weight='normal'))
+        self.desc_livro_lbl = customtkinter.CTkLabel(self.janela_inserir, text = 'Descrição:',font=customtkinter.CTkFont(size=20, weight='bold'))
         self.desc_livro_lbl.grid(row = 3, column = 0, sticky = 'W', pady = 20)
 
         self.desc_livro_entry = customtkinter.CTkEntry(self.janela_inserir, font=customtkinter.CTkFont(size=14, weight='bold'))
