@@ -17,7 +17,7 @@ class JanelaDevolverLivro:
         self.janela_borrow_livro.iconbitmap('')
         self.janela_borrow_livro.configure(bg="#f0f0f0")
         
-        self.book_list_lbl = customtkinter.CTkLabel(self.janela_borrow_livro, text='Books', font=customtkinter.CTkFont(size=20, weight='bold'))
+        self.book_list_lbl = customtkinter.CTkLabel(self.janela_borrow_livro, text='', font=customtkinter.CTkFont(size=20, weight='bold'))
         self.book_list_lbl.grid(row=0, column=0, columnspan=2, pady=20, sticky='NSEW')
         
         # Filtra os livros
@@ -27,7 +27,7 @@ class JanelaDevolverLivro:
         self.book_title_entry = customtkinter.CTkEntry(self.janela_borrow_livro, font=customtkinter.CTkFont(size=14, weight='bold'))
         self.book_title_entry.grid(row=1, column=1, pady=10, sticky='W')
         
-        self.filter_btn = customtkinter.CTkButton(self.janela_borrow_livro, text="Filter", font=customtkinter.CTkFont(size=14, weight='bold'), command=self.filter_list)
+        self.filter_btn = customtkinter.CTkButton(self.janela_borrow_livro, text="Filter", font=customtkinter.CTkFont(family="Helvitica",size=12, weight='normal'), command=self.filter_list)
         self.filter_btn.grid(row=1, column=2, pady=10, sticky='W')
 
 
@@ -43,9 +43,9 @@ class JanelaDevolverLivro:
         self.janela_borrow_livro.grid_rowconfigure(0, weight=1)
         self.janela_borrow_livro.grid_columnconfigure(0, weight=1)
 
-        self.return_btn = customtkinter.CTkButton(self.janela_borrow_livro, text="Return", font=customtkinter.CTkFont(size=14, weight='bold'), command=self.return_book)
+        self.return_btn = customtkinter.CTkButton(self.janela_borrow_livro, text="Return", font=customtkinter.CTkFont(family="Helvitica",size=12, weight='normal'), command=self.return_book)
         self.return_btn.grid(row=3, column=1, pady=10, sticky='W')
-        self.return_btn = customtkinter.CTkButton(self.janela_borrow_livro, text="Quit", font=customtkinter.CTkFont(size=14, weight='bold'), command=self.janela_borrow_livro.destroy)
+        self.return_btn = customtkinter.CTkButton(self.janela_borrow_livro, text="Quit", font=customtkinter.CTkFont(family="Helvitica",size=12, weight='normal'), command=self.janela_borrow_livro.destroy)
         self.return_btn.grid(row=3, column=2, pady=10, sticky='W')
         
         self.populate_book_list()

@@ -45,19 +45,19 @@ class JanelaRegisto:
         
 
         # Criar label registo
-        self.registo_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Register', font =customtkinter.CTkFont(size=20, weight='bold'))
+        self.registo_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Register', font =customtkinter.CTkFont(family="Helvetica",size=20, weight='bold'))
         self.registo_lbl.grid(row = 0, column = 0, columnspan = 2, pady = 20, sticky = 'NSEW')
 
         # Configuração do campo de nome do utilizador
-        self.user_name_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'USername: ',font =customtkinter.CTkFont(size=14, weight='bold'))
+        self.user_name_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Username: ',font =customtkinter.CTkFont(family="Helvetica",size=14, weight='bold'))
         self.user_name_lbl.grid(row = 1, column = 0, sticky = 'E', pady = 20)
-        self.user_name_entry =  customtkinter.CTkEntry(self.janela_registo, font =customtkinter.CTkFont(size=14, weight='bold'))
+        self.user_name_entry =  customtkinter.CTkEntry(self.janela_registo, font =customtkinter.CTkFont(family="Arial",size=14, weight='bold'))
         self.user_name_entry.grid(row = 1, column = 1, pady = 10)
 
         # Configuração do campo de email do utilizador
-        self.user_email_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Email: ',font =customtkinter.CTkFont(size=14, weight='normal'))
+        self.user_email_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Email: ',font =customtkinter.CTkFont(family="Helvetica",size=14, weight='bold'))
         self.user_email_lbl.grid(row = 2, column = 0, sticky = 'E', pady = 20)
-        self.user_email_entry =  customtkinter.CTkEntry(self.janela_registo, font =customtkinter.CTkFont(size=14, weight='bold'))
+        self.user_email_entry =  customtkinter.CTkEntry(self.janela_registo, font =customtkinter.CTkFont(family="Arial",size=14, weight='bold'))
         self.user_email_entry.grid(row = 2, column = 1, pady = 10)
 
         #Configuração do label de validação de email
@@ -65,16 +65,16 @@ class JanelaRegisto:
         self._user_email_valido_lbl.grid(row=3, column=2, padx=10)
 
         # Configuração do campo de nome do password
-        self.user_password_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Password: ', font =customtkinter.CTkFont(size=14, weight='normal'))
+        self.user_password_lbl =  customtkinter.CTkLabel(self.janela_registo, text = 'Password: ', font =customtkinter.CTkFont(family="Helvetica",size=14, weight='bold'))
         self.user_password_lbl.grid(row = 3, column = 0, sticky = 'E', pady = 20)
-        self.user_password_entry =  customtkinter.CTkEntry(self.janela_registo,font =customtkinter.CTkFont(size=14, weight='bold'), show = '*')
+        self.user_password_entry =  customtkinter.CTkEntry(self.janela_registo,font =customtkinter.CTkFont(family="Arial",size=14, weight='bold'), show = '*')
         self.user_password_entry.grid(row = 3, column = 1, pady = 10)
 
         if self.registering_role_name != "Client":
             choices = ["Client"]
             if self.registering_role_name == "SuperAdmin":
                 choices.append("Employer")
-            self.user_role_lbl =  customtkinter.CTkLabel(self.janela_registo, text="Pick a Role: ", font =customtkinter.CTkFont(size=14, weight='normal'))
+            self.user_role_lbl =  customtkinter.CTkLabel(self.janela_registo, text="Pick a Role: ", font =customtkinter.CTkFont(family="Helvetica",size=20, weight='normal'))
             self.user_role_lbl.grid(row = 4, column = 0, sticky = 'E', pady = 20)
             self.role_name =  customtkinter.CTkComboBox(self.janela_registo, values=choices,state="readonly")
             self.role_name.set("Client")
@@ -84,18 +84,18 @@ class JanelaRegisto:
             self.permission_checkboxes = []
             for index, permission in enumerate(self.permission_list):
                 var = IntVar()
-                checkbox =  customtkinter.CTkCheckBox(self.janela_registo, text=permission, variable=var, font =customtkinter.CTkFont(size=14, weight='normal'))
+                checkbox =  customtkinter.CTkCheckBox(self.janela_registo, text=permission, variable=var, font =customtkinter.CTkFont(family="Helvetica",size=14, weight='normal'))
                 checkbox.grid(row=index + 6, column=0, columnspan=2, pady=5, sticky='W')
                 self.permission_checkboxes.append((permission, var))
         row = 7
         if hasattr(self, 'permission_list'):
             row = 7 + len(self.permission_list)
         # Configuração do botão de registar
-        self.registar_btn =  customtkinter.CTkButton(self.janela_registo, text = "Register", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.registar_utilizador)
+        self.registar_btn =  customtkinter.CTkButton(self.janela_registo, text = "Register", font =customtkinter.CTkFont(family="Helvetica",size=12, weight='normal'), command = self.registar_utilizador)
         self.registar_btn.grid(row = row, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
 
         # Configuração do botão de sair
-        self.sair_btn =  customtkinter.CTkButton(self.janela_registo, text = "Quit", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.janela_registo.destroy)
+        self.sair_btn =  customtkinter.CTkButton(self.janela_registo, text = "Quit", font =customtkinter.CTkFont(family="Helvetica",size=12, weight='normal'), command = self.janela_registo.destroy)
         self.sair_btn.grid(row = row + 1, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW")
     
     def email_verificado(self):

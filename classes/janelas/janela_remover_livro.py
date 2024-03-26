@@ -36,28 +36,28 @@ class JanelaRemoverLivro:
         self.remover_livro.grid_rowconfigure((0, 1, 2), weight=1)
 
         # Campo Remover Livro
-        self.livro_lbl = customtkinter.CTkLabel(self.remover_livro, text="Insert the Title of the Book:", font=customtkinter.CTkFont(size=12, weight="normal"))
+        self.livro_lbl = customtkinter.CTkLabel(self.remover_livro, text="Title:", font=customtkinter.CTkFont(size=12, weight="normal"))
         self.livro_lbl.grid(row=1, column=0, padx=20, pady=(20, 10))
         self.livro_lbl_entry = customtkinter.CTkEntry(self.remover_livro)
-        self.livro_lbl_entry.grid(row=1, column=1, padx=20, pady=10)
+        self.livro_lbl_entry.grid(row=1, column=1, padx=20, pady=(20,10))
 
 
          # Configuração do botão de pesquisa de livro
         self.pesquisa_btn = customtkinter.CTkButton(self.remover_livro, text="Search", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_pesquisa)
-        self.pesquisa_btn.grid(row=2, column=4, columnspan=2, padx=20, pady=10)
+        self.pesquisa_btn.grid(row=2, column=2, columnspan=2, padx=20, pady=10)
 
 
         # Configuração no botão de remover livro
         self.remover_btn = customtkinter.CTkButton(self.remover_livro, text="Remove Book", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.remover_livro_escolhido)
-        self.remover_btn.grid(row=7, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
+        self.remover_btn.grid(row=7, column=2, columnspan=2, padx=20, pady=10)
 
         # Configuração do botão de sair
         self.sair_btn = customtkinter.CTkButton(self.remover_livro, text="Quit", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.remover_livro.destroy)
-        self.sair_btn.grid(row=8, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
+        self.sair_btn.grid(row=8, column=2, columnspan=2, padx=20, pady=10)
         
         # Configuração do CTkTreeview para exibir os resultados
         self.tree = ttk.Treeview(self.remover_livro, columns=("ISBN", "Title", "Description", "Year", "Authors"), show="headings")
-        self.tree.grid(row=2, column=0, columnspan=4, padx=20, pady=10, sticky="nsew")
+        self.tree.grid(row=3, column=0, columnspan=4, padx=20, pady=10, sticky="nsew")
 
         # Configurando as colunas do CTkTreeview
         self.tree.heading("ISBN", text="ISBN")

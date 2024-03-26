@@ -34,33 +34,33 @@ class JanelaPesquisarLivro:
         self.pesquisar_livro.grid_rowconfigure((0, 1, 2), weight=1)
 
         # Campo Pesquisar Livro
-        self.livro_lbl = customtkinter.CTkLabel(self.pesquisar_livro, text="Title: ", font=customtkinter.CTkFont(size=12, weight="normal"))
-        self.livro_lbl.grid(row=1, column=0, padx=20, pady=(20, 10))
+        self.livro_lbl = customtkinter.CTkLabel(self.pesquisar_livro, text="Title: ", font=customtkinter.CTkFont(family="Helvetica", size=12, weight="normal"))
+        self.livro_lbl.grid(row=1, column=0, padx=20, pady=10, sticky="E")
         self.livro_lbl_entry = customtkinter.CTkEntry(self.pesquisar_livro)
-        self.livro_lbl_entry.grid(row=1, column=1, padx=20, pady=10)
+        self.livro_lbl_entry.grid(row=1, column=1, padx=20, pady=5, sticky="W")
 
          # Checkbox de empréstimo
         self.emprestimo_var = IntVar()
         self.emprestimo_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Borrowed", variable=self.emprestimo_var)
-        self.emprestimo_cb.grid(row=1, column=2, padx=20, pady=10)
+        self.emprestimo_cb.grid(row=1, column=2, columnspan = 2, padx=20, pady = 10)
 
          # Checkbox de devolução
         self.devolvido_var = IntVar()  
         self.devolvido_cb = customtkinter.CTkCheckBox(self.pesquisar_livro, text="Returned", variable=self.devolvido_var)
-        self.devolvido_cb.grid(row=1, column=3, padx=20, pady=10)
+        self.devolvido_cb.grid(row=2, column=2,  columnspan = 2, padx=20, pady = 1)
 
 
         # Configuração do botão de pesquisa de livro
-        self.pesquisa_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Search", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.executar_pesquisa)
-        self.pesquisa_btn.grid(row=2, column=4, columnspan=2, padx=20, pady=10)
+        self.pesquisa_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Search", font=customtkinter.CTkFont(family="Helvetica",size=12, weight="bold"), command=self.executar_pesquisa)
+        self.pesquisa_btn.grid(row=7, column=1, columnspan = 2, padx=20, pady = 10)
 
         # Configuração do botão de sair
-        self.sair_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Quit", font=customtkinter.CTkFont(size=12, weight="normal"), command=self.pesquisar_livro.destroy)
-        self.sair_btn.grid(row=3, column=5, columnspan=1, padx=20, pady=10, sticky="nsew")
+        self.sair_btn = customtkinter.CTkButton(self.pesquisar_livro, text="Quit", font=customtkinter.CTkFont(family="Helvetica",size=12, weight="bold"), command=self.pesquisar_livro.destroy)
+        self.sair_btn.grid(row=8, column=1,  columnspan = 2, padx=20, pady = 10)
 
         # Configuração do CTkTreeview para exibir os resultados
         self.tree = ttk.Treeview(self.pesquisar_livro, columns=("ISBN", "Title", "Description", "Year", "Authors"), show="headings")
-        self.tree.grid(row=2, column=0, columnspan=4, padx=20, pady=10, sticky="nsew")
+        self.tree.grid(row=5, column=0,  columnspan = 4, padx=20, pady = 10, sticky="nsew")
 
         # Configurando as colunas do CTkTreeview
         self.tree.heading("ISBN", text="ISBN")
@@ -75,6 +75,12 @@ class JanelaPesquisarLivro:
         self.tree.column("#2", stretch=True)
         self.tree.column("#3", stretch=True)
         self.tree.column("#4", stretch=True)
+
+        # Estilizando a árvore
+        self.style = ttk.Style()
+        self.style.theme_use("clam")  # Escolha do tema
+        self.style.configure("Treeview", background="#f0f0f0", foreground="black", fieldbackground="#d3d3d3", font=("Arial", 10))
+        self.style.map("Treeview", background=[('selected', '#347083')])  # Cor de fundo ao selecionar uma linha
         
         list_books = self.search(self.livro_lbl_entry.get())
 

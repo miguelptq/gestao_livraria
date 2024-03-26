@@ -10,6 +10,7 @@ from classes.janelas.janela_remover_livro import JanelaRemoverLivro
 from classes.janelas.janela_registo import JanelaRegisto
 from classes.janelas.janela_requisitar_livro import JanelaRequisitarLivro
 from functions.functions import *
+from PIL import Image, ImageTk
 
 # Criar class para janela de registo
 
@@ -27,14 +28,22 @@ class JanelaMenu:
         button_count = 1
         self.janela_menu = customtkinter.CTkToplevel()
         self.janela_menu.title(f'{role_name} Menu') # muda o titulo
+       
+        # Carregar imagem de fundo
+        self.background_image = Image.open("classes/imagens/menu_users.jpg")  # Insira o caminho da sua imagem de fundo
+        self.background_photo = ImageTk.PhotoImage(self.background_image)
+
+        # Criar um label para a imagem de fundo
+        self.background_label = Label(self.janela_menu, image=self.background_photo)
+        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)  # Ajusta o label para ocupar toda a janela
 
         
         # Criar label registo
-        self.menu_lbl =  customtkinter.CTkLabel(self.janela_menu, text = f'{role_name} Menu', font =customtkinter.CTkFont(size=20, weight='bold'))
-        self.menu_lbl.grid(row = 0, column = 0, columnspan = 2, pady = 20, sticky = 'NSEW')
+        self.menu_lbl =  customtkinter.CTkLabel(self.janela_menu, text = f'{role_name} Menu', font =customtkinter.CTkFont(family = "Helvetica",size=20, weight='bold'))
+        self.menu_lbl.grid(row = 0, column = 0, columnspan = 2, padx=20, pady = 10, sticky = 'NSEW')
         for permission in permissions:
             button_var = f"{permission}_{button_count}"
-            self.button_var =  customtkinter.CTkButton(self.janela_menu, text=permission, font=customtkinter.CTkFont(size=14, weight='bold'), command=lambda option=permission: self.menu_redirect(option))
+            self.button_var =  customtkinter.CTkButton(self.janela_menu, text=permission, font=customtkinter.CTkFont(family="Arial", size=14, weight='bold'), command=lambda option=permission: self.menu_redirect(option))
             self.button_var.grid(row = button_count, column = 0, columnspan = 2, padx = 20, pady = 10, sticky = "NSEW") 
             button_count += 1
         self.sair_btn =  customtkinter.CTkButton(self.janela_menu, text = "Quit", font= customtkinter.CTkFont(size=14, weight='bold'), command = self.janela_menu.destroy)

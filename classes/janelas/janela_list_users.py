@@ -41,16 +41,16 @@ class JanelaListUsers:
 
         #Botão de filtrar utilizadores
         self.filter_btn = customtkinter.CTkButton(self.janela_lista_users, text = "Filter", font=customtkinter.CTkFont(size=14, weight='normal'), command = self.filter_list)
-        self.filter_btn.grid(row = 2, column = 1, pady = 10, sticky='W')
+        self.filter_btn.grid(row = 1, column = 3, pady = 10, sticky='W')
 
         #Botão de editar as informações do utilizadores
         self.editar_btn = customtkinter.CTkButton(self.janela_lista_users, text="Edit", font=customtkinter.CTkFont(size=14, weight='normal'), command=self.user_manager)
-        self.editar_btn.grid(row=3, column=1, pady=10, sticky='W')
+        self.editar_btn.grid(row=7, column=1, pady=10, sticky='W')
 
 
         #Botáo de sair
         self.sair_btn = customtkinter.CTkButton(self.janela_lista_users, text="Quit", font =customtkinter.CTkFont(size=14, weight='normal'), command = self.janela_lista_users.destroy )
-        self.sair_btn.grid(row = 4, column=1, pady=10, sticky= 'W')
+        self.sair_btn.grid(row = 8, column=1, pady=10, sticky= 'W')
 
 
         conn = sqlite3.connect('livraria.db')
@@ -76,7 +76,7 @@ class JanelaListUsers:
             permissions = ', '.join(data['permissions'])
             self.tree.insert('', 'end', values=(username, data['role'], permissions))
             self.tree.bind("<Double-1>", lambda event: self.user_manager(event, self.tree))
-        self.tree.grid(row=2, column=0, sticky='nsew')
+        self.tree.grid(row=3, column=0, sticky='nsew')
         self.janela_lista_users.grid_rowconfigure(0, weight=1)
         self.janela_lista_users.grid_columnconfigure(0, weight=1)
     

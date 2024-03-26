@@ -1,6 +1,7 @@
 #importações
 from tkinter import *
 from tkinter import Tk
+from PIL import Image, ImageTk
 from classes.janelas.janela_registo import JanelaRegisto
 from classes.janelas.janela_login import JanelaLogin
 import customtkinter
@@ -11,7 +12,16 @@ class JanelaPrincipal:
         
         #Criar a janela princiapl
         self.janela_principal = customtkinter.CTk()
+        self.janela_principal.geometry("200x300") 
         self.janela_principal.title('Book Management System') # muda o titulo
+        
+       # Carregar imagem de fundo
+        self.background_image = Image.open("classes/imagens/biblioteca.jpg")  # Insira o caminho da sua imagem de fundo
+        self.background_photo = ImageTk.PhotoImage(self.background_image)
+        
+        # Criar um label para a imagem de fundo
+        self.background_label = Label(self.janela_principal, image=self.background_photo)
+        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)  # Ajusta o label para ocupar toda a janela
 
         # Configuração do Texto de Boas Vindas
         self.boas_vindas_lbl = customtkinter.CTkLabel(self.janela_principal, text = 'Book Management System',font =customtkinter.CTkFont(size=14, weight='bold'))
