@@ -1,6 +1,7 @@
 from tkinter import *
 import sqlite3
 import customtkinter
+from tkinter import simpledialog
 
 class EditarDadosLivro:
     def __init__(self, book_data, janela_anterior):
@@ -73,10 +74,14 @@ class EditarDadosLivro:
             self.author_listbox.delete(selected_index)
 
     def edit_author(self, event):
-        index = self.author_listbox.nearest(event.y)
-        self.author_listbox.activate(index)
-        self.author_listbox.focus_set()
-        self.author_listbox.edit_set(index)
+        index = self.author_listbox.curselection()
+        if index:
+            index = int(index[0])
+            old_text = self.author_listbox.get(index)
+            new_text = simpledialog.askstring('Edit author', 'Enter the new author name:', initialvalue=old_text)
+            if new_text:
+                self.author_listbox.delete(index)
+                self.author_listbox.insert(index, new_text)
 
     def populate_author_list(self):
         # Autores do livro
