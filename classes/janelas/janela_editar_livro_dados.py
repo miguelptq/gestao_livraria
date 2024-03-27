@@ -97,8 +97,7 @@ class EditarDadosLivro:
 
     def save_changes(self):
         # Guardar
-        updated_data = [getattr(self, f"{label.lower()}_entry").get() for label in ['ISBN', 'Title', 'Description', 'Year', 'Authors']]
-
+        updated_data = [getattr(self, f"{label.lower()}_entry").get() for label in ['ISBN', 'Title', 'Description', 'Year']]
         conn = sqlite3.connect('livraria.db')
         cursor = conn.cursor()
         cursor.execute("UPDATE livro SET isbn_livro=?, nome_livro=?, desc_livro=?, ano_livro=? WHERE isbn_livro=?", (*updated_data, self.book_data[0]))
