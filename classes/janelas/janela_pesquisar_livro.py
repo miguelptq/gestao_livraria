@@ -117,7 +117,6 @@ class JanelaPesquisarLivro:
             query += f" l.borrowed = '{self.borrowed[0]}'"
         cursor.execute(query)
         results = cursor.fetchall()
-        print(results)
         conn.close()
         filtered_data = {}
         for isbn,title,desc,year, borrowed, author in results:
