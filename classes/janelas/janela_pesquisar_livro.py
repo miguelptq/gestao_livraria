@@ -103,7 +103,7 @@ class JanelaPesquisarLivro:
         cursor = conn.cursor()
 
         query = f"""
-            SELECT l.isbn_livro, l.nome_livro, l.desc_livro,l.borrowed, a.nome_autor
+            SELECT l.isbn_livro, l.nome_livro, l.desc_livro,l.ano_livro, l.borrowed, a.nome_autor
             FROM livro l
             JOIN autor_livro a ON l.isbn_livro = a.isbn_livro
         """
@@ -117,13 +117,14 @@ class JanelaPesquisarLivro:
             query += f" l.borrowed = '{self.borrowed[0]}'"
         cursor.execute(query)
         results = cursor.fetchall()
+        print(results)
         conn.close()
         filtered_data = {}
-        for isbn,title,desc, borrowed, author in results:
+        for isbn,title,desc,year, borrowed, author in results:
             if isbn not in filtered_data:
-                filtered_data[isbn] = {'isbn':isbn,'title': title,'desc':desc, 'authors': []}
+                filtered_data[isbn] = {'isbn':isbn,'title': title,'desc':desc,'year':year, 'authors': []}
             filtered_data[isbn]['authors'].append(author)
         for isbn, data in filtered_data.items():
             data['authors'] = ', '.join(data['authors'])
-            self.tree.insert('', 'end', values=(data['isbn'], data['title'], data['desc'], data['authors']))
+            self.tree.insert('', 'end', values=(data['isbn'], data['title'], data['desc'],data['year'], data['authors']))
         pass
