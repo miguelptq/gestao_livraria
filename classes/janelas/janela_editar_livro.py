@@ -71,8 +71,8 @@ class JanelaEditarLivro:
 
         # Preencher o Treeview com os livros
         for book in self.books:
-            item = self.tree.insert('', 'end', values=book[:4])  # Excluding the 'autores' column
-            self.tree.set(item, "Autores", book[6] if book[6] else '')  # Use "Autores" instead of "autores"
+            item = self.tree.insert('', 'end', values=book[:4])
+            self.tree.set(item, "Authors", book[6] if book[6] else '')
 
     def refresh_book_list(self):
         self.populate_book_list()
