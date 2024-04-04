@@ -1,4 +1,6 @@
 import customtkinter
+import os
+import subprocess
 from classes.janelas.janela_principal import JanelaPrincipal
 
 
@@ -10,6 +12,14 @@ customtkinter.set_default_color_theme("blue")
 
 #função main
 def main():
+    # Specify the path to your Python script
+    db_file_path = 'livraria.db'
+    if os.path.exists(db_file_path):
+        print('Db already exists')
+    else:
+        python_script_path = 'arquivo/criarTabela.py'
+        subprocess.run(['python', python_script_path])
+    
     janela = JanelaPrincipal()
     janela.janela_principal.mainloop()
 
